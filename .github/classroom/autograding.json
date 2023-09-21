@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "tests.py",
+      "setup": "sudo -H pip3 install --upgrade setuptools ; sudo -H pip3 install --upgrade pip; sudo -H pip3 install -r requirements.txt",
+      "run": "python3 -m unittest tests.py",
+      "input": "",
+      "output": "",
+      "comparison": "exact",
+      "timeout": 10,
+      "points": null
+    }
+  ]
+}
