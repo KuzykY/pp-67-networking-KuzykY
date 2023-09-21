@@ -26,7 +26,12 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         return json.loads(self.rfile.read(content_length).decode('utf-8'))  # <--- Gets the data itself
 
     def do_GET(self):
-        self._set_response(418)
+        if self.path == "/users":
+            status = 200
+            body = USERS_LIST
+            self._set_response(status,body)
+        else:
+            self._set_response(418)
 
     def do_POST(self):
         self._set_response(418)
