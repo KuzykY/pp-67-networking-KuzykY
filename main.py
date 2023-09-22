@@ -22,8 +22,8 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(json.dumps(body if body else {}).encode('utf-8'))
 
     def _pars_body(self):
-        content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-        return json.loads(self.rfile.read(content_length).decode('utf-8'))  # <--- Gets the data itself
+        content_length = int(self.headers['Content-Length'])
+        return json.loads(self.rfile.read(content_length).decode('utf-8'))
 
     def do_GET(self):
         if self.path == "/users":
@@ -31,7 +31,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             body = USERS_LIST
             self._set_response(status, body)
         elif self.path.startswith("/user/"):
-            username = self.path.split("/")[-1]  # Extract the username from the URL
+            username = self.path.split("/")[-1]
             user_data = None
 
             for user in USERS_LIST:
@@ -59,8 +59,8 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                     "password": "12345",
                 }
             ]
-            USERS_LIST.clear()  # Clear the existing list
-            USERS_LIST.extend(new_users_list)  # Set it to the new data
+            USERS_LIST.clear()
+            USERS_LIST.extend(new_users_list)
             body = {"message": "USERS_LIST reset successfully"}
             self._set_response(status, body)
         else:
@@ -107,9 +107,9 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def do_PUT(self):
         if self.path.startswith("/user/"):
-            user_id = self.path.split("/")[-1]  # Extract the user ID from the URL
+            user_id = self.path.split("/")[-1]
 
-            # Find the user with the given ID in USERS_LIST
+
             user_to_update = None
             for user in USERS_LIST:
                 if str(user["id"]) == user_id:
@@ -120,10 +120,10 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 try:
                     request_data = self._pars_body()
 
-                    # Check if the request body has the required structure
+
                     required_keys = ["username", "firstName", "lastName", "email", "password"]
                     if all(key in request_data for key in required_keys):
-                        # Update the user's data
+
                         user_to_update.update(request_data)
                         self._set_response(200, user_to_update)
                     else:
@@ -137,7 +137,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
     def do_DELETE(self):
         if self.path.startswith("/user/"):
-            user_id = self.path.split("/")[-1]  # Extract the user ID from the URL
+            user_id = self.path.split("/")[-1]
             user_to_delete = None
 
             for user in USERS_LIST:
@@ -146,7 +146,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                     break
 
             if user_to_delete is not None:
-                USERS_LIST.remove(user_to_delete)  # Remove the user from USERS_LIST
+                USERS_LIST.remove(user_to_delete)
                 status = 200
                 body = {}
             else:
